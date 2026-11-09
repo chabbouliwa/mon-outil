@@ -1,69 +1,214 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud & Docker Config Auditor</title>
-    <!-- Chargement du design moderne (Tailwind CSS) -->
+    <title>Cloud & Docker Config Auditor | Secure Your Infrastructure</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 900: '#0b0f19', 950: '#030712' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen p-6 flex flex-col items-center">
-    <div class="max-w-2xl w-full space-y-6">
+<body class="bg-dark-950 text-slate-100 min-h-screen flex flex-col items-center p-4 md:p-8 font-sans">
+
+    <!-- Container Principal -->
+    <div class="max-w-4xl w-full space-y-6">
+        
+        <!-- En-tête -->
         <header class="text-center space-y-2">
-            <h1 class="text-3xl font-extrabold">Auditeur de Configuration</h1>
-            <p class="text-slate-400 text-sm">Collez votre code de configuration ci-dessous pour détecter instantanément les erreurs de sécurité.</p>
+            <div class="inline-block bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/20 mb-2">
+                100% Free & Open Source DevOps Security
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Cloud & Docker Config Auditor</h1>
+            <p class="text-sm text-slate-400 max-w-xl mx-auto">
+                Collez votre fichier <code class="text-emerald-400">docker-compose.yml</code>, <code class="text-emerald-400">Dockerfile</code> ou configuration cloud pour détecter instantanément les failles critiques.
+            </p>
         </header>
 
-        <div class="space-y-4">
-            <textarea id="codeInput" rows="8" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-4 font-mono text-sm focus:outline-none focus:border-indigo-500" placeholder="Collez votre docker-compose.yml ou script ici..."></textarea>
-            
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <button onclick="runAudit()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-lg font-medium transition-colors">
-                    Lancer l'audit gratuit
+        <!-- Boutons d'exemples rapides -->
+        <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
+            <span class="text-slate-400">Tester un exemple :</span>
+            <button onclick="loadSample('compose')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Docker Compose Vulnérable</button>
+            <button onclick="loadSample('dockerfile')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Dockerfile non sécurisé</button>
+        </div>
+
+        <!-- Zone de texte -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-2xl backdrop-blur-sm space-y-4">
+            <textarea id="configInput" rows="10" class="w-full bg-dark-950 border border-slate-800 rounded-xl p-4 font-mono text-xs md:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition resize-y" placeholder="# Collez votre configuration ici... (ex: version: '3.8', services: ...)">version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "22:22"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MYSQL_ROOT_PASSWORD=secretpassword123</textarea>
+
+            <div class="flex items-center justify-between">
+                <span id="charCount" class="text-xs text-slate-500">0 caractères</span>
+                <button onclick="runAudit()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    Lancer l'audit de sécurité
                 </button>
-                <!-- Remplacez le lien # par votre lien Lemon Squeezy plus tard -->
-               
             </div>
         </div>
 
-        <div id="results" class="space-y-3 hidden">
-            <h2 class="text-xl font-semibold">Rapport d'analyse</h2>
-            <div id="resultsContent" class="space-y-2"></div>
+        <!-- Résultats de l'audit (Masqué par défaut) -->
+        <div id="resultsContainer" class="hidden space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <span>Rapport d'Audit</span>
+                    <span id="scoreBadge" class="text-xs px-2.5 py-0.5 rounded-full font-mono">Score: 0/100</span>
+                </h2>
+                <span id="issuesCount" class="text-xs text-slate-400"></span>
+            </div>
+
+            <div id="issuesList" class="space-y-3">
+                <!-- Les résultats s'injectent ici -->
+            </div>
         </div>
+
     </div>
 
+    <!-- Script du Moteur d'Audit -->
     <script>
-        function runAudit() {
-            const code = document.getElementById('codeInput').value;
-            const resultsDiv = document.getElementById('results');
-            const contentDiv = document.getElementById('resultsContent');
-            contentDiv.innerHTML = '';
-            resultsDiv.classList.remove('hidden');
+        const input = document.getElementById('configInput');
+        input.addEventListener('input', () => {
+            document.getElementById('charCount').innerText = input.value.length + ' caractères';
+        });
 
-            if (!code.trim()) {
-                contentDiv.innerHTML = '<div class="p-4 rounded-lg bg-amber-950/30 border border-amber-800 text-amber-200 font-mono text-sm">Veuillez coller du code à analyser.</div>';
+        function loadSample(type) {
+            if (type === 'compose') {
+                input.value = `version: '3.8'\nservices:\n  app:\n    image: node:latest\n    privileged: true\n    ports:\n      - "3306:3306"\n      - "22:22"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n    environment:\n      - API_KEY=AKIAIOSFODNN7EXAMPLE\n      - DB_PASS=supersecret`;
+            } else {
+                input.value = `FROM ubuntu:latest\nRUN apt-get update && apt-get install -y curl\nUSER root\nENV PASSWORD=myrootpassword123\nEXPOSE 22\nCMD ["bash"]`;
+            }
+            document.getElementById('charCount').innerText = input.value.length + ' caractères';
+        }
+
+        function runAudit() {
+            const text = input.value;
+            const container = document.getElementById('resultsContainer');
+            const list = document.getElementById('issuesList');
+            const scoreBadge = document.getElementById('scoreBadge');
+            
+            list.innerHTML = '';
+            container.classList.remove('hidden');
+
+            let issues = [];
+
+            // RÈGLES D'AUDIT (Moteur de détection)
+            if (text.includes('privileged: true')) {
+                issues.capacities = true;
+                issues.push({
+                    level: 'CRITICAL',
+                    title: 'Mode Privilégié Activé (privileged: true)',
+                    desc: 'Le conteneur dispose de tous les accès root de l’hôte hôte. En cas de compromission, toute la machine physique est vulnérable.',
+                    fix: 'Retirez la ligne `privileged: true` ou utilisez des capacités Linux spécifiques (`cap_add`).'
+                });
+            }
+
+            if (text.includes('/var/run/docker.sock')) {
+                issues.push({
+                    level: 'CRITICAL',
+                    title: 'Montage du socket Docker (/var/run/docker.sock)',
+                    desc: 'Donner accès au socket Docker à l’intérieur d’un conteneur équivaut à donner un accès root complet à l’hôte.',
+                    fix: 'Évitez de monter le socket Docker à moins que ce soit un agent CI/CD strictement isolé.'
+                });
+            }
+
+            if (text.includes(':latest')) {
+                issues.push({
+                    level: 'MEDIUM',
+                    title: 'Utilisation du tag `:latest`',
+                    desc: 'Le tag latest n’est pas reproductible et peut introduire des ruptures de version ou des images corrompues.',
+                    fix: 'Épinglez une version spécifique (ex: node:18.16.0-alpine).'
+                });
+            }
+
+            if (text.includes('22:22') || text.includes('EXPOSE 22')) {
+                issues.push({
+                    level: 'HIGH',
+                    title: 'Port SSH (22) exposé',
+                    desc: 'Exposer le port SSH directement sur l’interface publique invite les attaques par force brute.',
+                    fix: 'Utilisez un VPN (WireGuard) ou un proxy sécurisé (Bastion Host) au lieu d’exposer le port 22.'
+                });
+            }
+
+            if (text.includes('3306:3306') || text.includes('27017:27017') || text.includes('6379:6379')) {
+                issues.push({
+                    level: 'HIGH',
+                    title: 'Base de données / Cache exposé au monde extérieur',
+                    desc: 'Un port de base de données (MySQL, Mongo, Redis) est mappé directement sur l’hôte.',
+                    fix: 'Ne bindez le port qu’en local (`127.0.0.1:3306:3306`) ou isolez-le dans un réseau Docker interne.'
+                });
+            }
+
+            if (text.match(/password|secret|key|token/i)) {
+                issues.push({
+                    level: 'HIGH',
+                    title: 'Secrets potentiels en clair détectés',
+                    desc: 'Des mots de passe ou clés d’API semblent écrits en dur dans le fichier de configuration.',
+                    fix: 'Utilisez des variables d’environnement sécurisées (.env) ou un gestionnaire de secrets (Docker Secrets, Vault).'
+                });
+            }
+
+            if (text.includes('USER root')) {
+                issues.push({
+                    level: 'MEDIUM',
+                    title: 'Exécution en tant que root dans le conteneur',
+                    desc: 'Le conteneur s’exécute avec l’utilisateur root par défaut.',
+                    fix: 'Créez et utilisez un utilisateur non-privilégié (`USER appuser`).'
+                });
+            }
+
+            // Calcul du score
+            let score = Math.max(10, 100 - (issues.filter(i => i.level === 'CRITICAL').length * 35) - (issues.filter(i => i.level === 'HIGH').length * 20) - (issues.length * 10));
+            scoreBadge.innerText = `Score de Sécurité : ${score}/100`;
+            scoreBadge.className = `text-xs px-3 py-1 rounded-full font-mono font-bold ${score > 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : score > 40 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`;
+
+            document.getElementById('issuesCount').innerText = `${issues.length} vulnérabilité(s) détectée(s)`;
+
+            if (issues.length === 0) {
+                list.innerHTML = `
+                    <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-emerald-400 text-sm flex items-center gap-3">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Aucune faille majeure détectée dans cette configuration !
+                    </div>
+                `;
                 return;
             }
 
-            let issues = [];
-            if (code.includes('password:') && !code.includes('secret')) {
-                issues.push({ type: 'high', text: 'Attention : Mot de passe en clair détecté sans référence de secret sécurisée.' });
-            }
-            if (code.includes('image:') && code.includes(':latest')) {
-                issues.push({ type: 'medium', text: "Utilisation du tag ':latest'. Préférez une version figée pour la production." });
-            }
-            if (code.includes('privileged: true')) {
-                issues.push({ type: 'high', text: "Mode 'privileged: true' activé. Risque majeur de sécurité sur l'hôte." });
-            }
-
-            if (issues.length === 0) {
-                contentDiv.innerHTML = '<div class="p-4 rounded-lg bg-emerald-950/30 border border-emerald-800 text-emerald-200 font-mono text-sm">Aucune vulnérabilité évidente détectée par les règles de base.</div>';
-            } else {
-                issues.forEach(i => {
-                    const bg = i.type === 'high' ? 'bg-red-950/30 border-red-800 text-red-200' : 'bg-amber-950/30 border-amber-800 text-amber-200';
-                    contentDiv.innerHTML += `<div class="p-4 rounded-lg border ${bg} font-mono text-sm">${i.text}</div>`;
-                });
-            }
+            // Rendu des cartes de vulnérabilités
+            issues.forEach(iss => {
+                let badgeColor = iss.level === 'CRITICAL' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : iss.level === 'HIGH' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                
+                list.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-sm text-slate-200">${iss.title}</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded border font-mono font-bold ${badgeColor}">${iss.level}</span>
+                        </div>
+                        <p class="text-xs text-slate-400">${iss.desc}</p>
+                        <div class="bg-dark-950 p-2.5 rounded-lg border border-slate-800/80 text-xs text-emerald-300 font-mono">
+                            💡 Correction : ${iss.fix}
+                        </div>
+                    </div>
+                `;
+            });
         }
     </script>
 </body>
