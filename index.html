@@ -1,271 +1,397 @@
 <!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud & Docker Config Auditor | Free DevOps Security Scanner</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: { 900: '#0b0f19', 950: '#030712' }
-                    }
-                }
-            }
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud & Docker Config Auditor | Scanner de sécurité DevOps gratuit</title>
+<meta name="description" content="Auditez gratuitement vos fichiers Docker, Docker Compose, Kubernetes et Terraform. 100% côté client : vos configurations ne quittent jamais votre navigateur.">
+<meta property="og:title" content="Cloud & Docker Config Auditor">
+<meta property="og:description" content="Détectez les failles de sécurité dans vos configs Docker, Kubernetes et Terraform. Gratuit, open source, privé.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: { colors: { dark: { 900: '#0b0f19', 950: '#030712' } } } } }
+</script>
+<style>
+  :focus-visible { outline: 2px solid #34d399; outline-offset: 2px; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  @media print { body { background: #fff !important; color: #000 !important; } #editorBlock, #toolbar, header a, #filters { display: none !important; } }
+</style>
 </head>
 <body class="bg-dark-950 text-slate-100 min-h-screen flex flex-col items-center p-4 md:p-8 font-sans selection:bg-emerald-500 selection:text-white">
+<div class="max-w-4xl w-full space-y-6">
 
-    <!-- Container Principal -->
-    <div class="max-w-4xl w-full space-y-6">
-        
-        <!-- En-tête -->
-        <header class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
-            <div class="space-y-1 text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start gap-2">
-                    <span class="inline-block bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/20">
-                        100% Free & Open Source
-                    </span>
-                    <span class="inline-block bg-sky-500/10 text-sky-400 text-xs font-semibold px-3 py-1 rounded-full border border-sky-500/20">
-                        🔒 100% Client-Side (Private)
-                    </span>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-1">Cloud & Docker Config Auditor</h1>
-                <p class="text-xs md:text-sm text-slate-400">
-                    Détectez instantanément les failles de sécurité dans vos configurations Docker, Kubernetes et Terraform.
-                </p>
-            </div>
-            <a href="https://github.com/chabbouliwa/mon-outil" target="_blank" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs px-4 py-2 rounded-xl text-slate-300 transition flex items-center gap-2">
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                GitHub Source
-            </a>
-        </header>
+  <header class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+    <div class="space-y-1 text-center md:text-left">
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+        <span class="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/20">100% Free & Open Source</span>
+        <span class="bg-sky-500/10 text-sky-400 text-xs font-semibold px-3 py-1 rounded-full border border-sky-500/20">🔒 100% Client-Side (Private)</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-1">Cloud & Docker Config Auditor</h1>
+      <p class="text-xs md:text-sm text-slate-400">Détectez les failles de sécurité dans vos configurations Dockerfile, Compose, Kubernetes et Terraform.</p>
+    </div>
+    <a href="https://github.com/chabbouliwa/mon-outil" target="_blank" rel="noopener" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs px-4 py-2 rounded-xl text-slate-300 transition flex items-center gap-2">
+      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub Source
+    </a>
+  </header>
 
-        <!-- Boutons d'exemples rapides -->
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div class="flex flex-wrap items-center gap-2 text-xs">
-                <span class="text-slate-400">Exemples rapides :</span>
-                <button onclick="loadSample('compose')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Docker Compose</button>
-                <button onclick="loadSample('k8s')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Kubernetes Pod</button>
-                <button onclick="loadSample('terraform')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Terraform AWS</button>
-            </div>
-            <button onclick="clearEditor()" class="text-xs text-slate-500 hover:text-slate-300 transition">Effacer</button>
-        </div>
-
-        <!-- Zone de texte avec Drag & Drop -->
-        <div id="dropZone" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-2xl backdrop-blur-sm space-y-4 transition border-dashed">
-            <textarea id="configInput" rows="11" class="w-full bg-dark-950 border border-slate-800 rounded-xl p-4 font-mono text-xs md:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition resize-y" placeholder="# Collez votre fichier ici ou glissez-déposez un fichier .yml, .tf, Dockerfile..."></textarea>
-
-            <div class="flex items-center justify-between">
-                <span id="charCount" class="text-xs text-slate-500">0 caractères</span>
-                <button onclick="runAudit()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20 flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    Lancer l'audit de sécurité
-                </button>
-            </div>
-        </div>
-
-        <!-- Résultats de l'audit (Masqué par défaut) -->
-        <div id="resultsContainer" class="hidden space-y-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
-                <div>
-                    <h2 class="text-lg font-bold flex items-center gap-3">
-                        <span>Rapport d'Audit</span>
-                        <span id="scoreBadge" class="text-xs px-3 py-1 rounded-full font-mono font-bold">Score: 0/100</span>
-                    </h2>
-                    <span id="issuesCount" class="text-xs text-slate-400"></span>
-                </div>
-                <button onclick="copyMarkdownReport()" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs px-3.5 py-2 rounded-xl text-slate-300 transition flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                    Copier le rapport Markdown
-                </button>
-            </div>
-
-            <div id="issuesList" class="space-y-3">
-                <!-- Les résultats s'injectent ici -->
-            </div>
-        </div>
-
+  <div id="editorBlock" class="space-y-4">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-slate-400">Exemples :</span>
+        <button data-sample="dockerfile" class="sample bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Dockerfile</button>
+        <button data-sample="compose" class="sample bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Docker Compose</button>
+        <button data-sample="k8s" class="sample bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Kubernetes</button>
+        <button data-sample="terraform" class="sample bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-300 transition">Terraform AWS</button>
+      </div>
+      <button id="clearBtn" class="text-xs text-slate-500 hover:text-slate-300 transition">Effacer</button>
     </div>
 
-    <!-- Script du Moteur d'Audit -->
-    <script>
-        const input = document.getElementById('configInput');
-        const dropZone = document.getElementById('dropZone');
+    <div id="dropZone" class="bg-slate-900/80 border border-dashed border-slate-800 rounded-2xl p-4 shadow-2xl space-y-4 transition">
+      <label for="configInput" class="sr-only">Contenu du fichier de configuration</label>
+      <textarea id="configInput" rows="11" spellcheck="false" class="w-full bg-dark-950 border border-slate-800 rounded-xl p-4 font-mono text-xs md:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition resize-y" placeholder="# Collez votre fichier ici ou glissez-déposez un fichier .yml, .tf, Dockerfile... (Ctrl+Entrée pour lancer l'audit)"></textarea>
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 text-xs text-slate-500">
+          <span id="charCount">0 caractères</span>
+          <label class="flex items-center gap-2">Type :
+            <select id="techSelect" class="bg-dark-950 border border-slate-800 rounded-lg px-2 py-1 text-slate-300">
+              <option value="auto">Détection auto</option>
+              <option value="dockerfile">Dockerfile</option>
+              <option value="compose">Docker Compose</option>
+              <option value="k8s">Kubernetes</option>
+              <option value="terraform">Terraform</option>
+            </select>
+          </label>
+        </div>
+        <button id="runBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20">Lancer l'audit de sécurité</button>
+      </div>
+    </div>
+  </div>
 
-        input.addEventListener('input', updateCharCount);
+  <section id="results" class="hidden space-y-4" aria-live="polite">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div>
+        <h2 class="text-lg font-bold flex flex-wrap items-center gap-3">
+          <span>Rapport d'audit</span>
+          <span id="scoreBadge" class="text-xs px-3 py-1 rounded-full font-mono font-bold border"></span>
+          <span id="techBadge" class="text-xs px-3 py-1 rounded-full font-mono text-slate-300 bg-slate-800"></span>
+        </h2>
+        <span id="issuesCount" class="text-xs text-slate-400"></span>
+      </div>
+      <div id="toolbar" class="flex flex-wrap gap-2 text-xs">
+        <button id="copyMd" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-slate-300 transition">Copier en Markdown</button>
+        <button id="dlJson" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-slate-300 transition">Exporter JSON</button>
+        <button id="printBtn" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-slate-300 transition">Imprimer / PDF</button>
+      </div>
+    </div>
+    <div id="filters" class="flex flex-wrap items-center gap-2 text-xs"></div>
+    <div id="issuesList" class="space-y-3"></div>
+  </section>
 
-        function updateCharCount() {
-            document.getElementById('charCount').innerText = input.value.length + ' caractères';
+  <footer class="text-[11px] text-slate-500 border-t border-slate-800/80 pt-4 pb-8">
+    Outil d'aide basé sur des règles simples (analyse ligne par ligne). Il ne remplace pas des scanners complets comme Trivy, Checkov, kube-bench ou hadolint. Aucune donnée n'est envoyée : tout s'exécute dans votre navigateur.
+  </footer>
+</div>
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 text-slate-100 text-sm px-4 py-2 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity" role="status"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const input = $('configInput');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Niveaux et pénalités ---------- */
+const LEVELS = {
+  CRITICAL: { label: 'Critique', pen: 30, cls: 'bg-rose-500/10 text-rose-400 border-rose-500/20' },
+  HIGH:     { label: 'Élevé',    pen: 15, cls: 'bg-orange-500/10 text-orange-400 border-orange-500/20' },
+  MEDIUM:   { label: 'Moyen',    pen: 5,  cls: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
+  LOW:      { label: 'Faible',   pen: 2,  cls: 'bg-sky-500/10 text-sky-400 border-sky-500/20' }
+};
+
+/* ---------- Helpers de règles ---------- */
+const IMG_RE = /^\s*-?\s*image:\s*["']?([^\s"'#]+)/;
+const FROM_RE = /^\s*FROM\s+(?:--platform=\S+\s+)?(\S+)/i;
+const unpinned = img => {
+  if (!img || img.includes('$') || img.includes('@') || img.toLowerCase() === 'scratch') return false;
+  return !/:[^/:]+$/.test(img) || /:latest$/.test(img);
+};
+
+/* ---------- Moteur de règles ----------
+   line   : RegExp ou fonction (ligne sans commentaire, ctx) => bool
+   absent : (règles d'absence) la règle se déclenche si `when` est présent et `absent` ne l'est pas */
+const RULES = [
+  // Communes
+  { id: 'GEN-001', level: 'CRITICAL', techs: ['compose','k8s'], line: /^\s*-?\s*privileged:\s*["']?true/i,
+    title: 'Mode privilégié (privileged: true)', desc: 'Le conteneur dispose de quasiment tous les privilèges de l\'hôte.',
+    fix: 'Supprimez privileged et n\'ajoutez que les capabilities nécessaires (cap_add / capabilities.add).', ref: 'CIS Docker 5.4' },
+  { id: 'GEN-002', level: 'CRITICAL', techs: ['compose','k8s','dockerfile'], line: /docker\.sock/,
+    title: 'Socket Docker exposé', desc: 'Accès au daemon Docker de l\'hôte : équivaut à un accès root complet.',
+    fix: 'Ne montez jamais le socket dans un conteneur applicatif. Utilisez un proxy restreint si indispensable.', ref: 'CIS Docker 5.31' },
+  { id: 'GEN-003', level: 'CRITICAL', mask: true, line: /AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36}|-----BEGIN [A-Z ]*PRIVATE KEY-----|xox[baprs]-[A-Za-z0-9-]{10,}/,
+    title: 'Secret au format connu (clé AWS, token GitHub/Slack, clé privée)', desc: 'Un identifiant réel semble écrit en dur. Considérez-le comme compromis.',
+    fix: 'Révoquez-le immédiatement, puis utilisez un gestionnaire de secrets (Vault, AWS Secrets Manager, Docker/K8s secrets).', ref: 'OWASP A02' },
+  { id: 'GEN-004', level: 'HIGH', mask: true,
+    line: /\b[\w.-]*(password|passwd|secret|api[_-]?key|token|access[_-]?key)(?!name|ref)[\w.-]*["']?\s*[:=]\s*["']?(?![$<{]|changeme|["']?\s*$)[^\s"'$]{4,}/i,
+    title: 'Secret potentiel en clair', desc: 'Un mot de passe, token ou clé semble inscrit en dur dans le fichier.',
+    fix: 'Externalisez : variables d\'environnement injectées au runtime, fichier .env non versionné, ou gestionnaire de secrets.', ref: 'OWASP A02' },
+  { id: 'GEN-005', level: 'MEDIUM', techs: ['compose','k8s','dockerfile'],
+    line: (l, c) => {
+      let m = l.match(IMG_RE); if (m) return unpinned(m[1]);
+      m = l.match(FROM_RE); if (m) return !c.stages.has(m[1].toLowerCase()) && unpinned(m[1]);
+      return false;
+    },
+    title: 'Image non épinglée (tag :latest ou absence de tag)', desc: 'Le tag n\'est pas immuable : builds non reproductibles et risque de régression ou de faille.',
+    fix: 'Épinglez une version précise (ex : nginx:1.25-alpine), idéalement par digest (@sha256:...).', ref: 'CIS Docker 4.x' },
+  { id: 'GEN-006', level: 'HIGH', techs: ['compose','k8s','terraform','dockerfile'],
+    line: /(^|["'\s-])(\d+\.\d+\.\d+\.\d+:)?22:22\b|containerPort:\s*22\s*$|from_port\s*=\s*22\b|^\s*EXPOSE\s+(.*\s)?22(\s|\/|$)/i,
+    title: 'Port SSH (22) exposé', desc: 'Expose l\'infrastructure aux attaques par force brute.',
+    fix: 'Utilisez un bastion, un VPN ou AWS SSM. Évitez SSH dans les conteneurs.', ref: 'CIS Docker 5.6' },
+  { id: 'GEN-007', level: 'HIGH', techs: ['compose'],
+    line: /^\s*-\s*["']?(?!127\.0\.0\.1)(\d+\.\d+\.\d+\.\d+:)?(3306|5432|27017|6379|1433|9200|11211):\d+/,
+    title: 'Port de base de données / cache publié sur l\'hôte', desc: 'Le service est joignable depuis l\'extérieur de la machine.',
+    fix: 'Bindez en local ("127.0.0.1:5432:5432") ou utilisez uniquement le réseau interne Docker.', ref: 'CIS Docker 5.13' },
+  { id: 'GEN-008', level: 'HIGH', line: /0\.0\.0\.0\/0|::\/0/,
+    title: 'Règle réseau ouverte à tout Internet (0.0.0.0/0)', desc: 'Autorise le trafic depuis n\'importe quelle IP. Acceptable uniquement pour certains ports publics (80/443) ou en egress.',
+    fix: 'Restreignez le CIDR à des IP de confiance ou à votre VPC.', ref: 'CIS AWS 5.2' },
+
+  // Docker Compose
+  { id: 'DC-001', level: 'HIGH', techs: ['compose'], line: /^\s*(network_mode|pid|ipc):\s*["']?host/,
+    title: 'Namespace de l\'hôte partagé (network/pid/ipc: host)', desc: 'Casse l\'isolation entre le conteneur et l\'hôte.',
+    fix: 'Utilisez un réseau bridge dédié et publiez uniquement les ports nécessaires.', ref: 'CIS Docker 5.9 / 5.15' },
+  { id: 'DC-002', level: 'HIGH', techs: ['compose'], line: /^\s*-\s*["']?(SYS_ADMIN|ALL|NET_ADMIN|SYS_PTRACE)["']?\s*$/,
+    title: 'Capability Linux dangereuse (cap_add)', desc: 'SYS_ADMIN / ALL offrent des droits proches de ceux de root sur l\'hôte.',
+    fix: 'Utilisez cap_drop: [ALL] puis ajoutez uniquement le strict nécessaire.', ref: 'CIS Docker 5.3' },
+  { id: 'DC-003', level: 'MEDIUM', techs: ['compose'], line: /^\s*user:\s*["']?(root|0)(:\S+)?["']?\s*$/,
+    title: 'Conteneur forcé en root (user: root)', desc: 'Un compromis du processus donne les droits root dans le conteneur.',
+    fix: 'Utilisez un utilisateur non privilégié (ex : user: "1000:1000").', ref: 'CIS Docker 4.1' },
+  { id: 'DC-004', level: 'LOW', techs: ['compose'], when: /^\s*services:/m, absent: /read_only:\s*true/,
+    title: 'Aucun système de fichiers en lecture seule (read_only: true)', desc: 'Un attaquant peut écrire librement dans le conteneur.',
+    fix: 'Ajoutez read_only: true et des tmpfs pour les dossiers temporaires.', ref: 'CIS Docker 5.12' },
+
+  // Kubernetes
+  { id: 'K8S-001', level: 'HIGH', techs: ['k8s'], line: /^\s*host(Network|PID|IPC):\s*true/,
+    title: 'Namespace de l\'hôte partagé (hostNetwork / hostPID / hostIPC)', desc: 'Le pod peut observer ou interférer avec les processus et le réseau du nœud.',
+    fix: 'Supprimez ces options sauf besoin système avéré.', ref: 'CIS K8s 5.2.2-5.2.4' },
+  { id: 'K8S-002', level: 'HIGH', techs: ['k8s'], line: /^\s*allowPrivilegeEscalation:\s*true/,
+    title: 'Élévation de privilèges autorisée', desc: 'Un processus peut obtenir plus de privilèges que son parent.',
+    fix: 'Définissez allowPrivilegeEscalation: false.', ref: 'CIS K8s 5.2.5' },
+  { id: 'K8S-003', level: 'HIGH', techs: ['k8s'], line: /^\s*(runAsUser:\s*0\s*$|runAsNonRoot:\s*false)/,
+    title: 'Exécution en root (runAsUser: 0 / runAsNonRoot: false)', desc: 'Le conteneur tourne avec l\'UID 0.',
+    fix: 'Définissez runAsNonRoot: true et un runAsUser >= 1000.', ref: 'CIS K8s 5.2.6' },
+  { id: 'K8S-004', level: 'MEDIUM', techs: ['k8s'], line: /^\s*hostPath:/,
+    title: 'Volume hostPath', desc: 'Monte un dossier du nœud dans le pod : risque d\'évasion et de fuite de données.',
+    fix: 'Préférez PersistentVolume, emptyDir ou ConfigMap/Secret.', ref: 'Pod Security Standards' },
+  { id: 'K8S-005', level: 'MEDIUM', techs: ['k8s'], when: /^\s*kind:\s*(Pod|Deployment|StatefulSet|DaemonSet|Job|CronJob)/m, absent: /runAsNonRoot:\s*true/,
+    title: 'runAsNonRoot: true absent', desc: 'Rien n\'empêche les conteneurs de démarrer en root.',
+    fix: 'Ajoutez securityContext.runAsNonRoot: true au pod ou au conteneur.', ref: 'CIS K8s 5.2.6' },
+  { id: 'K8S-006', level: 'MEDIUM', techs: ['k8s'], when: /^\s*kind:\s*(Pod|Deployment|StatefulSet|DaemonSet|Job|CronJob)/m, absent: /^\s*limits:/m,
+    title: 'Aucune limite de ressources (resources.limits)', desc: 'Un pod peut consommer toutes les ressources du nœud (déni de service).',
+    fix: 'Définissez resources.limits.cpu et memory.', ref: 'CIS K8s 5.x' },
+  { id: 'K8S-007', level: 'LOW', techs: ['k8s'], when: /^\s*kind:\s*(Pod|Deployment|StatefulSet|DaemonSet|Job|CronJob)/m, absent: /readOnlyRootFilesystem:\s*true/,
+    title: 'readOnlyRootFilesystem: true absent', desc: 'Le système de fichiers du conteneur est modifiable.',
+    fix: 'Activez readOnlyRootFilesystem: true et utilisez des emptyDir pour les écritures.', ref: 'Pod Security Standards' },
+  { id: 'K8S-008', level: 'LOW', techs: ['k8s'], line: /^\s*automountServiceAccountToken:\s*true/,
+    title: 'Token de service account monté automatiquement', desc: 'Le token peut être volé en cas de compromission du pod.',
+    fix: 'Mettez automountServiceAccountToken: false si l\'API Kubernetes n\'est pas utilisée.', ref: 'CIS K8s 5.1.6' },
+
+  // Dockerfile
+  { id: 'DF-001', level: 'MEDIUM', techs: ['dockerfile'], when: /^\s*FROM\s/mi, absent: /^\s*USER\s+(?!root\b)\S+/mi,
+    title: 'Aucune instruction USER : le conteneur tourne en root', desc: 'Un compromis de l\'application donne les droits root dans le conteneur.',
+    fix: 'Créez un utilisateur dédié et ajoutez USER appuser.', ref: 'CIS Docker 4.1' },
+  { id: 'DF-002', level: 'HIGH', techs: ['dockerfile'], line: /(curl|wget)[^|\n]*\|\s*(sudo\s+)?(ba|z)?sh\b/,
+    title: 'Exécution de script distant (curl | sh)', desc: 'Exécute du code non vérifié pendant le build.',
+    fix: 'Téléchargez, vérifiez le checksum / la signature, puis exécutez.', ref: 'Supply chain' },
+  { id: 'DF-003', level: 'LOW', techs: ['dockerfile'], line: /^\s*ADD\s+(?!https?:|\S+\.(tar|tgz|gz|xz|bz2)\b)/i,
+    title: 'ADD utilisé à la place de COPY', desc: 'ADD a des comportements implicites (archives, URLs).',
+    fix: 'Utilisez COPY sauf besoin d\'extraction automatique.', ref: 'CIS Docker 4.9' },
+  { id: 'DF-004', level: 'MEDIUM', techs: ['dockerfile'], line: /chmod\s+(-R\s+)?(0?777|a\+rwx)/,
+    title: 'Permissions trop larges (chmod 777)', desc: 'Tout utilisateur peut lire, écrire et exécuter.',
+    fix: 'Appliquez le principe du moindre privilège (ex : 750 ou 640).', ref: 'Hardening' },
+  { id: 'DF-005', level: 'LOW', techs: ['dockerfile'], when: /^\s*FROM\s/mi, absent: /^\s*HEALTHCHECK\s/mi,
+    title: 'HEALTHCHECK absent', desc: 'L\'orchestrateur ne peut pas détecter un service bloqué.',
+    fix: 'Ajoutez une instruction HEALTHCHECK adaptée à votre application.', ref: 'CIS Docker 4.6' },
+
+  // Terraform
+  { id: 'TF-001', level: 'CRITICAL', techs: ['terraform'], line: /\bacl\s*=\s*"public-read(-write)?"/,
+    title: 'Bucket S3 public (acl = public-read)', desc: 'Les objets sont lisibles par tout Internet.',
+    fix: 'Utilisez acl = "private" et activez aws_s3_bucket_public_access_block.', ref: 'CIS AWS 2.1.5' },
+  { id: 'TF-002', level: 'HIGH', techs: ['terraform'], line: /\b(storage_)?encrypted\s*=\s*false|\bkms_key_id\s*=\s*""/,
+    title: 'Chiffrement désactivé', desc: 'Les données au repos ne sont pas chiffrées.',
+    fix: 'Mettez encrypted = true (avec une clé KMS si possible).', ref: 'CIS AWS 2.2.1 / 2.3.1' },
+  { id: 'TF-003', level: 'HIGH', techs: ['terraform'], line: /\bpublicly_accessible\s*=\s*true/,
+    title: 'Base de données accessible publiquement', desc: 'L\'instance RDS reçoit une IP publique.',
+    fix: 'Mettez publicly_accessible = false et placez l\'instance dans un sous-réseau privé.', ref: 'CIS AWS 2.3.3' },
+  { id: 'TF-004', level: 'HIGH', techs: ['terraform'], line: /["']?(Action|Resource)["']?\s*[:=]\s*(\[\s*)?["']\*["']/,
+    title: 'Politique IAM trop permissive (Action ou Resource = "*")', desc: 'Viole le principe du moindre privilège.',
+    fix: 'Listez explicitement les actions et ressources strictement nécessaires.', ref: 'CIS AWS 1.16' },
+  { id: 'TF-005', level: 'MEDIUM', techs: ['terraform'], line: /\bprotocol\s*=\s*"-1"/,
+    title: 'Tous les protocoles autorisés (protocol = "-1")', desc: 'Une règle de groupe de sécurité autorise tout le trafic.',
+    fix: 'Limitez au protocole et aux ports requis (tcp 443, par exemple).', ref: 'CIS AWS 5.x' },
+  { id: 'TF-006', level: 'LOW', techs: ['terraform'], when: /resource\s+"aws_s3_bucket"/, absent: /versioning/,
+    title: 'Versioning S3 absent', desc: 'Pas de protection contre la suppression ou l\'écrasement accidentels.',
+    fix: 'Activez aws_s3_bucket_versioning.', ref: 'CIS AWS 2.1.3' }
+];
+
+/* ---------- Détection du type ---------- */
+function detect(t) {
+  if (/^\s*FROM\s+\S+/mi.test(t) && !/^\s*(apiVersion|services):/m.test(t)) return 'dockerfile';
+  if (/^\s*apiVersion:/m.test(t) && /^\s*kind:/m.test(t)) return 'k8s';
+  if (/^\s*services:/m.test(t)) return 'compose';
+  if (/\b(resource|provider|variable|module|terraform)\s+("|\{)/.test(t)) return 'terraform';
+  return 'unknown';
+}
+const TECH_NAMES = { dockerfile: 'Dockerfile', compose: 'Docker Compose', k8s: 'Kubernetes', terraform: 'Terraform', unknown: 'Type inconnu (toutes les règles)' };
+
+/* ---------- Audit ---------- */
+function audit(text, tech) {
+  const lines = text.split('\n');
+  const ctx = { stages: new Set([...text.matchAll(/^\s*FROM\s+.*\bAS\s+(\S+)/gim)].map(m => m[1].toLowerCase())) };
+  const mask = s => s.replace(/(AKIA|gh[pousr]_|xox[baprs]-)[A-Za-z0-9_-]+/g, '$1••••').replace(/([:=]\s*["']?)[^\s"']{4,}/, '$1••••').replace(/(PRIVATE KEY-----).*/, '$1');
+  const found = [];
+  for (const r of RULES) {
+    if (r.techs && tech !== 'unknown' && !r.techs.includes(tech)) continue;
+    const hits = [];
+    if (r.line) {
+      lines.forEach((raw, i) => {
+        const l = raw.replace(/(^|\s)#.*$/, '');
+        if (!l.trim()) return;
+        if (r.line instanceof RegExp ? r.line.test(l) : r.line(l, ctx)) {
+          const t = raw.trim().slice(0, 120);
+          hits.push({ line: i + 1, text: r.mask ? mask(t) : t });
         }
+      });
+    } else if (r.when.test(text) && !r.absent.test(text)) {
+      hits.push({ line: 0, text: '(élément absent du fichier)' });
+    }
+    if (hits.length) found.push({ id: r.id, level: r.level, title: r.title, desc: r.desc, fix: r.fix, ref: r.ref, hits });
+  }
+  const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+  found.sort((a, b) => order[a.level] - order[b.level]);
+  const score = Math.max(0, 100 - found.reduce((s, f) => s + LEVELS[f.level].pen, 0));
+  return { tech, score, issues: found };
+}
 
-        function clearEditor() {
-            input.value = '';
-            updateCharCount();
-            document.getElementById('resultsContainer').classList.add('hidden');
-        }
+/* ---------- Rendu ---------- */
+let current = null, filter = 'ALL';
 
-        // Gestion du Drag & Drop de fichiers
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.add('border-emerald-500', 'bg-slate-900'); }, false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.remove('border-emerald-500', 'bg-slate-900'); }, false);
-        });
-        dropZone.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    input.value = e.target.result;
-                    updateCharCount();
-                };
-                reader.readAsText(files[0]);
-            }
-        });
+function render() {
+  const { issues, score, tech } = current;
+  const sb = $('scoreBadge');
+  sb.textContent = `Score : ${score}/100`;
+  sb.className = 'text-xs px-3 py-1 rounded-full font-mono font-bold border ' +
+    (score > 70 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : score > 40 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20');
+  $('techBadge').textContent = TECH_NAMES[tech];
+  $('issuesCount').textContent = `${issues.length} règle(s) déclenchée(s)`;
 
-        function loadSample(type) {
-            if (type === 'compose') {
-                input.value = `version: '3.8'\nservices:\n  app:\n    image: node:latest\n    privileged: true\n    ports:\n      - "3306:3306"\n      - "22:22"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n    environment:\n      - API_KEY=AKIAIOSFODNN7EXAMPLE\n      - DB_PASSWORD=supersecret123`;
-            } else if (type === 'k8s') {
-                input.value = `apiVersion: v1\nkind: Pod\nmetadata:\n  name: vulnerable-pod\nspec:\n  containers:\n  - name: app\n    image: nginx:latest\n    securityContext:\n      privileged: true\n      runAsRoot: true\n    ports:\n    - containerPort: 22`;
-            } else {
-                input.value = `provider "aws" {\n  region = "us-east-1"\n}\n\nresource "aws_security_group" "allow_all" {\n  name = "allow_all"\n  ingress {\n    cidr_blocks = ["0.0.0.0/0"]\n    protocol    = "-1"\n    from_port   = 0\n    to_port     = 0\n  }\n}`;
-            }
-            updateCharCount();
-        }
+  const counts = { ALL: issues.length };
+  Object.keys(LEVELS).forEach(k => counts[k] = issues.filter(i => i.level === k).length);
+  $('filters').innerHTML = ['ALL', ...Object.keys(LEVELS)].map(k =>
+    `<button data-f="${k}" class="px-3 py-1.5 rounded-lg border transition ${filter === k ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800'}">${k === 'ALL' ? 'Toutes' : LEVELS[k].label} (${counts[k]})</button>`).join('') +
+    `<button data-f="toggle" class="ml-auto text-slate-500 hover:text-slate-300">Tout replier / déplier</button>`;
 
-        let currentIssues = [];
+  const list = $('issuesList');
+  const shown = issues.filter(i => filter === 'ALL' || i.level === filter);
+  if (!issues.length) {
+    list.innerHTML = `<div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-emerald-400 text-sm">Aucune faille détectée par les règles actuelles. Cela ne garantit pas l'absence de problème : complétez avec un scanner dédié.</div>`;
+    return;
+  }
+  list.innerHTML = shown.map(i => `
+    <details open class="bg-slate-900 border border-slate-800 rounded-xl">
+      <summary class="flex items-center justify-between gap-3 p-4">
+        <span class="font-semibold text-sm text-slate-200">${esc(i.title)}</span>
+        <span class="text-[10px] px-2.5 py-0.5 rounded border font-mono font-bold shrink-0 ${LEVELS[i.level].cls}">${LEVELS[i.level].label}</span>
+      </summary>
+      <div class="px-4 pb-4 space-y-3">
+        <p class="text-xs text-slate-400">${esc(i.desc)}</p>
+        <div class="bg-dark-950 rounded-lg border border-slate-800/80 divide-y divide-slate-800/60 font-mono text-xs overflow-x-auto">
+          ${i.hits.slice(0, 8).map(h => `<div class="px-2.5 py-1.5 flex gap-3 whitespace-pre"><span class="text-slate-500 shrink-0">${h.line ? 'L' + h.line : '—'}</span><span class="text-slate-300">${esc(h.text)}</span></div>`).join('')}
+          ${i.hits.length > 8 ? `<div class="px-2.5 py-1.5 text-slate-500">… et ${i.hits.length - 8} autre(s) occurrence(s)</div>` : ''}
+        </div>
+        <div class="bg-dark-950 p-2.5 rounded-lg border border-slate-800/80 text-xs text-emerald-300">Recommandation : ${esc(i.fix)}</div>
+        <div class="text-[10px] text-slate-500 font-mono">${esc(i.id)} · Réf. ${esc(i.ref)}</div>
+      </div>
+    </details>`).join('') || `<div class="text-xs text-slate-500">Aucun résultat pour ce filtre.</div>`;
+}
 
-        function runAudit() {
-            const text = input.value;
-            const container = document.getElementById('resultsContainer');
-            const list = document.getElementById('issuesList');
-            const scoreBadge = document.getElementById('scoreBadge');
-            
-            list.innerHTML = '';
-            container.classList.remove('hidden');
+function runAudit() {
+  const text = input.value;
+  if (!text.trim()) return toast('Collez d\'abord une configuration à auditer.');
+  const sel = $('techSelect').value;
+  current = audit(text, sel === 'auto' ? detect(text) : sel);
+  filter = 'ALL';
+  $('results').classList.remove('hidden');
+  render();
+  $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-            currentIssues = [];
+/* ---------- Exports ---------- */
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.style.opacity = 1;
+  clearTimeout(toast.id); toast.id = setTimeout(() => t.style.opacity = 0, 2200);
+}
+function markdown() {
+  let md = `# Rapport d'audit de sécurité\n\n- **Type :** ${TECH_NAMES[current.tech]}\n- **Score :** ${current.score}/100\n- **Règles déclenchées :** ${current.issues.length}\n\n`;
+  current.issues.forEach((i, n) => {
+    md += `### ${n + 1}. [${LEVELS[i.level].label}] ${i.title}\n- **Problème :** ${i.desc}\n- **Correction :** ${i.fix}\n- **Règle :** ${i.id} (${i.ref})\n`;
+    i.hits.forEach(h => md += `  - ${h.line ? 'Ligne ' + h.line : 'Global'} : \`${h.text.replace(/`/g, "'")}\`\n`);
+    md += '\n';
+  });
+  return md;
+}
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand('copy'); ta.remove();
+    if (!ok) return toast('Copie impossible : sélectionnez le texte manuellement.');
+  }
+  toast('Rapport Markdown copié.');
+}
+function downloadJson() {
+  const blob = new Blob([JSON.stringify({ tool: 'cloud-docker-config-auditor', date: new Date().toISOString(), ...current }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'audit-report.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
 
-            // RÈGLES D'AUDIT MULTI-TECH (Docker, Kubernetes, Terraform)
-            if (text.includes('privileged: true') || text.includes('privileged:true')) {
-                currentIssues.push({
-                    level: 'CRITICAL',
-                    title: 'Mode Privilégié Détecté (privileged: true)',
-                    desc: 'Le conteneur ou pod dispose des privilèges root complets sur l’hôte sous-jacent.',
-                    fix: 'Supprimez le mode privilégié et n’activez que les capacités Linux strictement nécessaires (`cap_add`).'
-                });
-            }
+/* ---------- Interface ---------- */
+const SAMPLES = {
+  dockerfile: `FROM node:latest\nWORKDIR /app\nADD . /app\nRUN curl -fsSL https://example.com/install.sh | sh\nRUN chmod -R 777 /app\nENV DB_PASSWORD=supersecret123\nEXPOSE 22 3000\nCMD ["node", "server.js"]`,
+  compose: `version: '3.8'\nservices:\n  app:\n    image: node:latest\n    privileged: true\n    network_mode: host\n    ports:\n      - "3306:3306"\n      - "22:22"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n    cap_add:\n      - SYS_ADMIN\n    environment:\n      - API_KEY=AKIAIOSFODNN7EXAMPLE\n      - DB_PASSWORD=supersecret123`,
+  k8s: `apiVersion: v1\nkind: Pod\nmetadata:\n  name: vulnerable-pod\nspec:\n  hostNetwork: true\n  containers:\n  - name: app\n    image: nginx:latest\n    securityContext:\n      privileged: true\n      runAsUser: 0\n      allowPrivilegeEscalation: true\n    ports:\n    - containerPort: 22\n  volumes:\n  - name: host\n    hostPath:\n      path: /`,
+  terraform: `provider "aws" {\n  region = "us-east-1"\n}\n\nresource "aws_s3_bucket" "data" {\n  bucket = "my-data"\n  acl    = "public-read"\n}\n\nresource "aws_db_instance" "db" {\n  publicly_accessible = true\n  storage_encrypted   = false\n}\n\nresource "aws_security_group" "allow_all" {\n  name = "allow_all"\n  ingress {\n    cidr_blocks = ["0.0.0.0/0"]\n    protocol    = "-1"\n    from_port   = 0\n    to_port     = 0\n  }\n}`
+};
+const updateCount = () => $('charCount').textContent = input.value.length + ' caractères';
 
-            if (text.includes('/var/run/docker.sock')) {
-                currentIssues.push({
-                    level: 'CRITICAL',
-                    title: 'Exposition du socket Docker (/var/run/docker.sock)',
-                    desc: 'Permet au conteneur de manipuler le daemon Docker de l’hôte, ce qui équivaut à un accès root total.',
-                    fix: 'Évitez de monter le socket Docker dans un conteneur d’application standard.'
-                });
-            }
+input.addEventListener('input', updateCount);
+input.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runAudit(); });
+$('runBtn').onclick = runAudit;
+$('clearBtn').onclick = () => { input.value = ''; updateCount(); $('results').classList.add('hidden'); };
+$('copyMd').onclick = () => copyText(markdown());
+$('dlJson').onclick = downloadJson;
+$('printBtn').onclick = () => window.print();
+document.querySelectorAll('.sample').forEach(b => b.onclick = () => { input.value = SAMPLES[b.dataset.sample]; $('techSelect').value = 'auto'; updateCount(); });
+$('filters').addEventListener('click', e => {
+  const f = e.target.closest('button')?.dataset.f; if (!f) return;
+  if (f === 'toggle') {
+    const ds = [...document.querySelectorAll('#issuesList details')];
+    const open = ds.some(d => d.open); ds.forEach(d => d.open = !open);
+  } else { filter = f; render(); }
+});
 
-            if (text.includes('0.0.0.0/0')) {
-                currentIssues.push({
-                    level: 'CRITICAL',
-                    title: 'Règle pare-feu ouverte au monde entier (0.0.0.0/0)',
-                    desc: 'Un groupe de sécurité ou une règle réseau autorise le trafic depuis n’importe quelle IP publique.',
-                    fix: 'Restreignez la plage CIDR aux adresses IP de confiance ou à votre VPC interne.'
-                });
-            }
-
-            if (text.includes(':latest')) {
-                currentIssues.push({
-                    level: 'MEDIUM',
-                    title: 'Utilisation du tag d’image `:latest`',
-                    desc: 'Le tag latest n’est pas immuable et risque d’introduire des régressions ou des failles imprévues.',
-                    fix: 'Épinglez une version d’image spécifique (ex: nginx:1.25-alpine).'
-                });
-            }
-
-            if (text.includes('22:22') || text.includes('containerPort: 22') || text.includes('from_port   = 22')) {
-                currentIssues.push({
-                    level: 'HIGH',
-                    title: 'Port SSH (22) exposé publiquement',
-                    desc: 'Exposer le port SSH directement expose l’infrastructure à des attaques massives par force brute.',
-                    fix: 'Utilisez un VPN managé, un bastion sécurisé ou l’accès SSM (AWS) pour l’administration.'
-                });
-            }
-
-            if (text.includes('3306:3306') || text.includes('27017:27017') || text.includes('6379:6379')) {
-                currentIssues.push({
-                    level: 'HIGH',
-                    title: 'Port de base de données exposé sur l’hôte',
-                    desc: 'Une base de données ou un cache est accessible directement depuis l’extérieur.',
-                    fix: 'Ne bindez le port qu’en local (`127.0.0.1`) ou isolez-le dans un réseau privé.'
-                });
-            }
-
-            if (text.match(/password|secret|key|token/i)) {
-                currentIssues.push({
-                    level: 'HIGH',
-                    title: 'Secrets potentiels en clair détectés',
-                    desc: 'Des mots de passe ou tokens d’API semblent inscrits en dur dans le fichier.',
-                    fix: 'Externalisez les secrets dans un gestionnaire sécurisé (Vault, AWS Secrets Manager, .env).'
-                });
-            }
-
-            // Calcul du score
-            let score = Math.max(10, 100 - (currentIssues.filter(i => i.level === 'CRITICAL').length * 35) - (currentIssues.filter(i => i.level === 'HIGH').length * 20) - (currentIssues.length * 10));
-            scoreBadge.innerText = `Score: ${score}/100`;
-            scoreBadge.className = `text-xs px-3 py-1 rounded-full font-mono font-bold ${score > 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : score > 40 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`;
-
-            document.getElementById('issuesCount').innerText = `${currentIssues.length} vulnérabilité(s) identifiée(s)`;
-
-            if (currentIssues.length === 0) {
-                list.innerHTML = `
-                    <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-emerald-400 text-sm flex items-center gap-3">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        Aucune faille majeure détectée dans cette configuration !
-                    </div>
-                `;
-                return;
-            }
-
-            // Rendu des cartes de vulnérabilités
-            currentIssues.forEach(iss => {
-                let badgeColor = iss.level === 'CRITICAL' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : iss.level === 'HIGH' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-                
-                list.innerHTML += `
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="font-semibold text-sm text-slate-200">${iss.title}</span>
-                            <span class="text-[10px] px-2.5 py-0.5 rounded border font-mono font-bold ${badgeColor}">${iss.level}</span>
-                        </div>
-                        <p class="text-xs text-slate-400">${iss.desc}</p>
-                        <div class="bg-dark-950 p-2.5 rounded-lg border border-slate-800/80 text-xs text-emerald-300 font-mono">
-                            💡 Recommandation : ${iss.fix}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function copyMarkdownReport() {
-            let md = `# Rapport d'Audit de Sécurité - Cloud & Docker Config Auditor\n\n`;
-            md += `- **Statut :** ${currentIssues.length} problème(s) détecté(s)\n\n`;
-            currentIssues.forEach((iss, index) => {
-                md += `### ${index + 1}. [${iss.level}] ${iss.title}\n`;
-                md += `- **Problème :** ${iss.desc}\n`;
-                md += `- **Correction :** ${iss.fix}\n\n`;
-            });
-            navigator.clipboard.writeText(md).then(() => {
-                alert('Rapport Markdown copié dans le presse-papier !');
-            });
-        }
-    </script>
+const dz = $('dropZone');
+['dragenter', 'dragover'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); dz.classList.add('border-emerald-500'); }));
+['dragleave', 'drop'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); dz.classList.remove('border-emerald-500'); }));
+dz.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  if (f.size > 1024 * 1024) return toast('Fichier trop volumineux (1 Mo maximum).');
+  const r = new FileReader();
+  r.onload = ev => { input.value = ev.target.result; updateCount(); };
+  r.readAsText(f);
+});
+</script>
 </body>
 </html>
