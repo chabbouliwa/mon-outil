@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud & Docker Config Auditor</title>
+    <!-- Chargement du design moderne (Tailwind CSS) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 flex flex-col items-center">
+    <div class="max-w-2xl w-full space-y-6">
+        <header class="text-center space-y-2">
+            <h1 class="text-3xl font-extrabold">Auditeur de Configuration</h1>
+            <p class="text-slate-400 text-sm">Collez votre code de configuration ci-dessous pour détecter instantanément les erreurs de sécurité.</p>
+        </header>
+
+        <div class="space-y-4">
+            <textarea id="codeInput" rows="8" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-4 font-mono text-sm focus:outline-none focus:border-indigo-500" placeholder="Collez votre docker-compose.yml ou script ici..."></textarea>
+            
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <button onclick="runAudit()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-lg font-medium transition-colors">
+                    Lancer l'audit gratuit
+                </button>
+                <!-- Remplacez le lien # par votre lien Lemon Squeezy plus tard -->
+                <a href="#" id="payLink" target="_blank" class="text-sm text-indigo-400 hover:underline">
+                    Débloquer l'accès illimité Pro ($19) →
+                </a>
+            </div>
+        </div>
+
+        <div id="results" class="space-y-3 hidden">
+            <h2 class="text-xl font-semibold">Rapport d'analyse</h2>
+            <div id="resultsContent" class="space-y-2"></div>
+        </div>
+    </div>
+
+    <script>
+        function runAudit() {
+            const code = document.getElementById('codeInput').value;
+            const resultsDiv = document.getElementById('results');
+            const contentDiv = document.getElementById('resultsContent');
+            contentDiv.innerHTML = '';
+            resultsDiv.classList.remove('hidden');
+
+            if (!code.trim()) {
+                contentDiv.innerHTML = '<div class="p-4 rounded-lg bg-amber-950/30 border border-amber-800 text-amber-200 font-mono text-sm">Veuillez coller du code à analyser.</div>';
+                return;
+            }
+
+            let issues = [];
+            if (code.includes('password:') && !code.includes('secret')) {
+                issues.push({ type: 'high', text: 'Attention : Mot de passe en clair détecté sans référence de secret sécurisée.' });
+            }
+            if (code.includes('image:') && code.includes(':latest')) {
+                issues.push({ type: 'medium', text: "Utilisation du tag ':latest'. Préférez une version figée pour la production." });
+            }
+            if (code.includes('privileged: true')) {
+                issues.push({ type: 'high', text: "Mode 'privileged: true' activé. Risque majeur de sécurité sur l'hôte." });
+            }
+
+            if (issues.length === 0) {
+                contentDiv.innerHTML = '<div class="p-4 rounded-lg bg-emerald-950/30 border border-emerald-800 text-emerald-200 font-mono text-sm">Aucune vulnérabilité évidente détectée par les règles de base.</div>';
+            } else {
+                issues.forEach(i => {
+                    const bg = i.type === 'high' ? 'bg-red-950/30 border-red-800 text-red-200' : 'bg-amber-950/30 border-amber-800 text-amber-200';
+                    contentDiv.innerHTML += `<div class="p-4 rounded-lg border ${bg} font-mono text-sm">${i.text}</div>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
